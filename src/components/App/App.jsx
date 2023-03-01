@@ -45,7 +45,7 @@ export const App = () => {
           minWidth: 680,
           borderRadius: 10,
           padding: 30,
-          backgroundColor: '#32343B',
+          backgroundColor: '#32343B ',
         }}
       >
         <div></div>
