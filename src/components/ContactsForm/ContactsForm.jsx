@@ -1,6 +1,7 @@
 // Styles
 import { Container, Input, Label, ErrorNotify } from './ContactsForm.styled';
-import { CreateContactBtn } from 'components/Button/Button.styled';
+// import { CreateContactBtn } from 'components/Button/Button.styled';
+import { Button } from 'components/Button/Button';
 
 // Formik
 import { Formik } from 'formik';
@@ -78,7 +79,9 @@ const ContactsForm = () => {
 
           <ErrorNotify name="number" component="div" />
         </div>
-        <CreateContactBtn type="submit">Add</CreateContactBtn>
+        <Button variant="submit" type="submit">
+          Add
+        </Button>
       </Container>
     </Formik>
   );

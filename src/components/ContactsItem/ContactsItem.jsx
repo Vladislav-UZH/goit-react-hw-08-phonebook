@@ -1,6 +1,6 @@
 import { Item, Name, Number, Container } from './ContactsItem.styled';
 import PropTypes from 'prop-types';
-import { DeleteButton } from 'components/Button/Button.styled';
+import { Button } from 'components/Button/Button';
 
 const ContactsItem = ({ name, number, deleteContact }) => {
   return (
@@ -10,9 +10,9 @@ const ContactsItem = ({ name, number, deleteContact }) => {
         <Number> {number}</Number>
       </Container>
 
-      <DeleteButton type="button" onClick={deleteContact}>
+      <Button variant="delete" type="button" onClick={deleteContact}>
         Delete
-      </DeleteButton>
+      </Button>
     </Item>
   );
 };

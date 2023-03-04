@@ -24,7 +24,32 @@ const defaultStyles = `
     color: #e2580a;
   }
 `;
-
+const StyledButton = styled.button`
+  ${({ variant }) => {
+    switch (variant) {
+      case 'submit':
+        return `
+        ${defaultStyles}
+        font-size: 22px;
+        width: 150px;
+        height: 50px;
+        `;
+      case 'delete':
+        return `
+  ${defaultStyles}
+  margin-left: auto;
+  padding: 5px 20px;`;
+      case 'default':
+        return `${defaultStyles}
+        font-size: 16px;
+        width: 100px;
+        height: 40px;
+        `;
+      default:
+        throw new Error('Unsupported variant');
+    }
+  }}
+`;
 const AddContactsBtn = styled.button`
   ${defaultStyles}
   /* paddings */
@@ -36,17 +61,8 @@ const AddContactsBtn = styled.button`
   font-size: 20px;
 `;
 
-const DeleteButton = styled.button`
-  ${defaultStyles}
-  margin-left: auto;
-  padding: 5px 20px;
-`;
-const CreateContactBtn = styled.button`
-  ${defaultStyles}
-  font-size: 22px;
-  width: 150px;
-  height: 50px;
-`;
+const DeleteButton = styled.button``;
+const CreateContactBtn = styled.button``;
 
 // const Icon = styled.svg``;
-export { AddContactsBtn, DeleteButton, CreateContactBtn };
+export { AddContactsBtn, DeleteButton, CreateContactBtn, StyledButton };

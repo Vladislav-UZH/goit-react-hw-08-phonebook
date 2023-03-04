@@ -1,7 +1,14 @@
-export const Button = ({ type = 'button', title, children }) => {
+import { StyledButton } from './Button.styled';
+
+export const Button = ({
+  variant = 'default',
+  type = 'button',
+  title,
+  children,
+}) => {
   return (
-    <button type={type}>
+    <StyledButton variant={variant} type={type}>
       {title} {children}
-    </button>
+    </StyledButton>
   );
 };

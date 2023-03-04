@@ -11,7 +11,7 @@ import { refreshUser } from 'redux/auth/operations';
 import { PrivateRoute } from 'components/PrivateRoute';
 import { RestrictedRoute } from 'components/RestrictedRoute';
 import { useAuth } from 'hooks';
-import { toast } from 'react-hot-toast';
+// import { toast } from 'react-hot-toast';
 
 //___APP___
 const HomePage = lazy(() => import('../../pages/Home'));
@@ -28,7 +28,7 @@ export const App = () => {
   }, [dispatch]);
   console.log(isRefreshing);
   return isRefreshing ? (
-    toast.loading('Refreshing...')
+    <b>Refreshing...</b> // toast.loading('Refreshing...')
   ) : (
     <Routes>
       <Route path="/" element={<Layout />}>
