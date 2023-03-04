@@ -1,8 +1,9 @@
 import { toast } from 'react-hot-toast';
 import { Button } from 'components/Button/Button';
-import { Formik, Form, Field } from 'formik';
 import { useDispatch } from 'react-redux';
 import { register } from 'redux/auth/operations';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Grid, TextField, Paper, Box, Typography } from '@mui/material';
 
 export const RegisterForm = () => {
   const dispatch = useDispatch();
@@ -18,23 +19,55 @@ export const RegisterForm = () => {
     dispatch(register({ name, email, password }));
     // resetForm();
   };
+
   return (
-    <Formik initialValues={initualValues} onSubmit={handleSubmit}>
-      <Form>
-        <label>
-          Username
-          <Field name="name" type="text" />
-        </label>
-        <label>
-          Email
-          <Field name="email" type="email" />
-        </label>
-        <label>
-          Password
-          <Field name="password" type="password" />
-        </label>
-        <Button type="submit" title="Login" />
-      </Form>
-    </Formik>
+    <Grid container sx={{ justifyContent: 'center' }}>
+      <Paper>
+        <Box p={5}>
+          <Typography variant="h4">Login</Typography>
+          <Formik initialValues={initualValues} onSubmit={handleSubmit}>
+            {props => {
+              return (
+                <Form>
+                  <Field
+                    as={TextField}
+                    label="Username"
+                    helperText={<ErrorMessage name="name" />}
+                    margin="dense"
+                    fullWidth
+                    name="name"
+                    type="text"
+                    error={props.errors.email && props.touched.email}
+                  />
+                  <Field
+                    as={TextField}
+                    label="Email"
+                    helperText={<ErrorMessage name="email" />}
+                    margin="dense"
+                    fullWidth
+                    name="email"
+                    type="email"
+                    error={props.errors.email && props.touched.email}
+                  />
+
+                  <Field
+                    as={TextField}
+                    label="Password"
+                    helperText={<ErrorMessage name="password" />}
+                    margin="dense"
+                    fullWidth
+                    name="password"
+                    type="password"
+                    error={props.errors.password && props.touched.password}
+                  />
+
+                  <Button variant="default" type="submit" title="Login" />
+                </Form>
+              );
+            }}
+          </Formik>
+        </Box>
+      </Paper>
+    </Grid>
   );
 };

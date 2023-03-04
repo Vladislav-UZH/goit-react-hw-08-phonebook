@@ -17,9 +17,12 @@ export const UserMenu = () => {
           Hello👋, <Username>{user.name}</Username>
         </p>
       </Greetings>
-      <Button variant="default" type="button" onClick={handleClick}>
-        Logout
-      </Button>
+      <Button
+        variant="default"
+        type="button"
+        title="Logout"
+        onClick={handleClick}
+      />
     </Nav>
   );
 };

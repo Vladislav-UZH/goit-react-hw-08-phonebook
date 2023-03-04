@@ -79,9 +79,7 @@ const ContactsForm = () => {
 
           <ErrorNotify name="number" component="div" />
         </div>
-        <Button variant="submit" type="submit">
-          Add
-        </Button>
+        <Button variant="submit" title="Add" type="submit" />
       </Container>
     </Formik>
   );

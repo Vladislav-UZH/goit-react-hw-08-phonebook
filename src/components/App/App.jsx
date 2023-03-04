@@ -26,7 +26,6 @@ export const App = () => {
   useEffect(() => {
     dispatch(refreshUser());
   }, [dispatch]);
-  console.log(isRefreshing);
   return isRefreshing ? (
     <b>Refreshing...</b> // toast.loading('Refreshing...')
   ) : (

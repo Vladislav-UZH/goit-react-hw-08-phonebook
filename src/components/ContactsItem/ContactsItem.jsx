@@ -10,9 +10,12 @@ const ContactsItem = ({ name, number, deleteContact }) => {
         <Number> {number}</Number>
       </Container>
 
-      <Button variant="delete" type="button" onClick={deleteContact}>
-        Delete
-      </Button>
+      <Button
+        variant="delete"
+        title="Delete"
+        type="button"
+        onClick={deleteContact}
+      />
     </Item>
   );
 };

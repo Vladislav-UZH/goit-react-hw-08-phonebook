@@ -7,7 +7,6 @@ const selectFilteredContacts = createSelector(
   [selectContacts, selectFilter],
   (contacts, filterValue) => {
     const normalizedFilter = filterValue.toLowerCase();
-    console.log('items', contacts);
     return contacts.filter(({ name }) =>
       name.toLowerCase().includes(normalizedFilter)
     );

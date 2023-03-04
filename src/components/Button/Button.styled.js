@@ -17,11 +17,14 @@ const defaultStyles = `
   transition: background-color ${animationFunc}, outline ${animationFunc},
     color ${animationFunc};
 
-  :hover,
-  :focus {
+  &:hover {
     outline: 1px solid #e2580a;
     background-color: transparent;
     color: #e2580a;
+  }
+  &:active{
+    background-color:#e2580a ; 
+    color: inherit;
   }
 `;
 const StyledButton = styled.button`
