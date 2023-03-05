@@ -28,7 +28,11 @@ const ContactsItem = ({
     if (isEdit) {
       setIsEdit(prv => !prv);
       if (!name || !number) {
-        alert();
+        alert('You forgot to enter your contacts data!');
+        return;
+      }
+      if (name === nameValue && number === numberValue) {
+        alert('Nothing to change.');
         return;
       }
       dispatch(editContact({ id, name, number }));
