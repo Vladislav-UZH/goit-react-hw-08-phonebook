@@ -11,6 +11,7 @@ import { refreshUser } from 'redux/auth/operations';
 import { PrivateRoute } from 'components/PrivateRoute';
 import { RestrictedRoute } from 'components/RestrictedRoute';
 import { useAuth } from 'hooks';
+import SkeletonLoader from 'components/SkeletonLoader/SkeletonLoader';
 // import { toast } from 'react-hot-toast';
 
 //___APP___
@@ -23,11 +24,12 @@ export const App = () => {
   // render
   const dispatch = useDispatch();
   const { isRefreshing } = useAuth();
+  // console.log('isRefreshing?', isRefreshing);
   useEffect(() => {
     dispatch(refreshUser());
   }, [dispatch]);
   return isRefreshing ? (
-    <b>Refreshing...</b> // toast.loading('Refreshing...')
+    <SkeletonLoader />
   ) : (
     <Routes>
       <Route path="/" element={<Layout />}>

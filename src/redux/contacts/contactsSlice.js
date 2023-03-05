@@ -1,12 +1,17 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
-import { fetchContacts, addContact, deleteContact } from './operations';
+import {
+  fetchContacts,
+  addContact,
+  deleteContact,
+  editContact,
+} from './operations';
 const contactsInitState = [
   // { id: 'id-1', name: 'Rosie Simpson', number: '098-396-56-58' },
   // { id: 'id-2', name: 'Hermione Kline', number: '050-966-23-50' },
   // { id: 'id-3', name: 'Eden Clements', number: '099-663-10-22' },
   // { id: 'id-4', name: 'Annie Copeland', number: '099-423-66-19' },
 ];
-const extraActions = [fetchContacts, addContact, deleteContact];
+const extraActions = [fetchContacts, addContact, editContact, deleteContact];
 const getActions = type => extraActions.map(action => action[type]);
 const handlePending = state => {
   state.isLoading = true;
@@ -40,6 +45,12 @@ const contactsSlice = createSlice({
           contact => contact.id === action.payload
         );
         state.items.splice(index, 1);
+      })
+      .addCase(editContact.fulfilled, (state, action) => {
+        const index = state.items.findIndex(
+          contact => contact.id === action.payload.id
+        );
+        state.items.splice(index, 1, action.payload);
       })
       .addMatcher(isAnyOf(...getActions('pending')), handlePending)
       .addMatcher(isAnyOf(...getActions('rejected')), handleRejected)

@@ -1,15 +1,74 @@
 import { Item, Name, Number, Container } from './ContactsItem.styled';
 import PropTypes from 'prop-types';
 import { Button } from 'components/Button/Button';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { editContact } from 'redux/contacts/operations';
 
-const ContactsItem = ({ name, number, deleteContact }) => {
+const ContactsItem = ({
+  id,
+  name: nameValue,
+  number: numberValue,
+  deleteContact,
+}) => {
+  const [isEdit, setIsEdit] = useState(false);
+  const [name, setName] = useState(nameValue);
+  const [number, setNumber] = useState(numberValue);
+  const dispatch = useDispatch();
+  const handleChange = e => {
+    const inputValue = e.target.value;
+    const inputName = e.target.name;
+    if (inputName) {
+      setName(inputValue);
+      return;
+    }
+    setNumber(inputValue);
+  };
+  const handleChangeMode = () => {
+    if (isEdit) {
+      setIsEdit(prv => !prv);
+      if (!name || !number) {
+        alert();
+        return;
+      }
+      dispatch(editContact({ id, name, number }));
+      return;
+    }
+    setIsEdit(prv => !prv);
+  };
   return (
     <Item>
       <Container>
-        <Name>{name}: </Name>
-        <Number> {number}</Number>
+        {isEdit ? (
+          <>
+            <input
+              onChange={handleChange}
+              onFocus={e => e.target.select()}
+              defaultValue={nameValue}
+              name="name"
+              type="text"
+            />
+            <input
+              onChange={handleChange}
+              onFocus={e => e.target.select()}
+              defaultValue={numberValue}
+              name="number"
+              type="text"
+            />
+          </>
+        ) : (
+          <>
+            <Name>{nameValue}: </Name>
+            <Number> {numberValue}</Number>
+          </>
+        )}
       </Container>
-
+      <Button
+        variant="delete"
+        title={isEdit ? 'Save' : 'Edit'}
+        type="button"
+        onClick={handleChangeMode}
+      />
       <Button
         variant="delete"
         title="Delete"
