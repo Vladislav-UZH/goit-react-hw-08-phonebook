@@ -18,11 +18,17 @@ const ContactsItem = ({
   const handleChange = e => {
     const inputValue = e.target.value;
     const inputName = e.target.name;
-    if (inputName) {
-      setName(inputValue);
-      return;
+
+    switch (inputName) {
+      case 'name':
+        setName(inputValue);
+        return;
+      case 'number':
+        setNumber(inputValue);
+        return;
+      default:
+        return;
     }
-    setNumber(inputValue);
   };
   const handleChangeMode = () => {
     if (isEdit) {
