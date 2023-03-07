@@ -7,9 +7,10 @@ const selectFilteredContacts = createSelector(
   [selectContacts, selectFilter],
   (contacts, filterValue) => {
     const normalizedFilter = filterValue.toLowerCase();
-    return contacts.filter(({ name }) =>
+    const result = contacts.filter(({ name }) =>
       name.toLowerCase().includes(normalizedFilter)
     );
+    return result;
   }
 );
 const selectIsLoading = state => state.contacts.isLoading;

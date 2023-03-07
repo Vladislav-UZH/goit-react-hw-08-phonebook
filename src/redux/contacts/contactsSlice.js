@@ -1,16 +1,12 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
+import toast from 'react-hot-toast';
 import {
   fetchContacts,
   addContact,
   deleteContact,
   editContact,
 } from './operations';
-const contactsInitState = [
-  // { id: 'id-1', name: 'Rosie Simpson', number: '098-396-56-58' },
-  // { id: 'id-2', name: 'Hermione Kline', number: '050-966-23-50' },
-  // { id: 'id-3', name: 'Eden Clements', number: '099-663-10-22' },
-  // { id: 'id-4', name: 'Annie Copeland', number: '099-423-66-19' },
-];
+const contactsInitState = [];
 const extraActions = [fetchContacts, addContact, editContact, deleteContact];
 const getActions = type => extraActions.map(action => action[type]);
 const handlePending = state => {
@@ -19,10 +15,12 @@ const handlePending = state => {
 const handleRejected = (state, action) => {
   state.isLoading = false;
   state.error = action.payload;
+  toast.error('Something went wrong..');
 };
 const handleFulfilled = state => {
   state.isLoading = false;
   state.error = null;
+  toast.success('Here we go!');
 };
 const contactsSlice = createSlice({
   name: 'contacts',
@@ -41,10 +39,17 @@ const contactsSlice = createSlice({
         state.items.push(action.payload);
       })
       .addCase(deleteContact.fulfilled, (state, action) => {
-        const index = state.items.find(
-          contact => contact.id === action.payload
+        // console.log(action.payload.id);
+        const filtredItems = state.items.filter(
+          item => item.id !== action.payload.id
         );
-        state.items.splice(index, 1);
+        state.items = filtredItems;
+        // const index = state.items.find(contact => {
+        //   console.log(action.payload.id);
+        //   return contact.id === action.payload.id;
+        // });
+        // console.log(index);
+        // state.items.splice(index, 1);
       })
       .addCase(editContact.fulfilled, (state, action) => {
         const index = state.items.findIndex(

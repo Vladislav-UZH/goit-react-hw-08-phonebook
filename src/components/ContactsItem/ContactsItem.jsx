@@ -30,6 +30,7 @@ const ContactsItem = ({
         return;
     }
   };
+
   const handleChangeMode = () => {
     if (isEdit) {
       setIsEdit(prv => !prv);

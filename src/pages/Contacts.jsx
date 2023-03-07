@@ -15,12 +15,16 @@ const Contacts = () => {
   const dispatch = useDispatch();
   const contacts = useSelector(selectContacts);
   const { isRefreshing } = useAuth();
+  // const isLoading = useSelector(selectIsLoading);
   // console.log(contacts);
   const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
+    console.log('mounting');
+  }, []);
+  useEffect(() => {
     dispatch(fetchContacts());
   }, [dispatch]);
-
+  console.log(contacts);
   const toggleContactBar = () => {
     setIsOpen(true);
   };
