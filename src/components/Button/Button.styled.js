@@ -30,6 +30,7 @@ const defaultStyles = `
 const StyledButton = styled.button`
   ${({ variant }) => {
     switch (variant) {
+      // SUBMIT
       case 'submit':
         return `
         ${defaultStyles}
@@ -37,17 +38,25 @@ const StyledButton = styled.button`
         width: 150px;
         height: 50px;
         `;
+      // DELETE
       case 'delete':
+        return `
+  ${defaultStyles}
+  padding: 5px 20px;`;
+      // EDIT
+      case 'edit':
         return `
   ${defaultStyles}
   margin-left: auto;
   padding: 5px 20px;`;
+      // DEFAULT
       case 'default':
         return `${defaultStyles}
         font-size: 16px;
         width: 100px;
         height: 40px;
         `;
+
       default:
         throw new Error('Unsupported variant');
     }

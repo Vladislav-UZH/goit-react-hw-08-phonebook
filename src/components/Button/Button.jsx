@@ -5,10 +5,16 @@ export const Button = ({
   type = 'button',
   title,
   onClick,
+  disabled = false,
   children,
 }) => {
   return (
-    <StyledButton variant={variant} type={type} onClick={onClick}>
+    <StyledButton
+      disabled={disabled}
+      variant={variant}
+      type={type}
+      onClick={onClick}
+    >
       {title} {children}
     </StyledButton>
   );
@@ -19,4 +25,5 @@ Button.propTypes = {
   type: PropTypes.string,
   title: PropTypes.string.isRequired,
   onClick: PropTypes.func,
+  disabled: PropTypes.bool,
 };

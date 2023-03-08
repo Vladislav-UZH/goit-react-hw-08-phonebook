@@ -4,6 +4,8 @@ import { Button } from 'components/Button/Button';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { editContact } from 'redux/contacts/operations';
+import toast from 'react-hot-toast';
+import { Formik, Form, Field } from 'formik';
 
 const ContactsItem = ({
   id,
@@ -12,80 +14,138 @@ const ContactsItem = ({
   deleteContact,
 }) => {
   const [isEdit, setIsEdit] = useState(false);
-  const [name, setName] = useState(nameValue);
-  const [number, setNumber] = useState(numberValue);
   const dispatch = useDispatch();
-  const handleChange = e => {
-    const inputValue = e.target.value;
-    const inputName = e.target.name;
-
-    switch (inputName) {
-      case 'name':
-        setName(inputValue);
-        return;
-      case 'number':
-        setNumber(inputValue);
-        return;
-      default:
-        return;
-    }
+  const initialValues = {
+    name: nameValue,
+    number: numberValue,
   };
+  //
 
-  const handleChangeMode = () => {
-    if (isEdit) {
-      setIsEdit(prv => !prv);
-      if (!name || !number) {
-        alert('You forgot to enter your contacts data!');
-        return;
-      }
-      if (name === nameValue && number === numberValue) {
-        alert('Nothing to change.');
-        return;
-      }
-      dispatch(editContact({ id, name, number }));
+  //
+  const toggleIsEdit = () => {
+    setIsEdit(prev => !prev);
+  };
+  //
+  const handleEdit = e => {
+    return toggleIsEdit();
+  };
+  //
+  const handleSubmit = ({ name, number }) => {
+    const normalizedName = name.trim();
+    const normalizedNnumber = number.trim();
+    if (!normalizedName || !normalizedNnumber) {
+      toast.error('You forgot to enter your contacts data!');
       return;
     }
-    setIsEdit(prv => !prv);
+    if (normalizedName === nameValue && normalizedNnumber === numberValue) {
+      toast.error('Nothing to change.');
+      return toggleIsEdit();
+    }
+    dispatch(editContact({ id, normalizedName, normalizedNnumber }));
+    return toggleIsEdit();
   };
+
   return (
     <Item>
       <Container>
-        {isEdit ? (
-          <>
-            <input
-              onChange={handleChange}
-              onFocus={e => e.target.select()}
-              defaultValue={nameValue}
-              name="name"
-              type="text"
-            />
-            <input
-              onChange={handleChange}
-              onFocus={e => e.target.select()}
-              defaultValue={numberValue}
-              name="number"
-              type="text"
-            />
-          </>
-        ) : (
+        {!isEdit ? (
           <>
             <Name>{nameValue}: </Name>
             <Number> {numberValue}</Number>
           </>
+        ) : (
+          <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+            <Form
+              style={{
+                display: 'flex',
+                gap: 10,
+              }}
+            >
+              <Field
+                style={{
+                  color: '#dbd7d7',
+                  backgroundColor: 'transparent',
+                  outline: '#e2580a solid 1px',
+                  borderRadius: 10,
+                  paddingLeft: 10,
+                  border: 'none',
+                }}
+                onFocus={e => e.target.select()}
+                name="name"
+                type="text"
+              />
+              <Field
+                style={{
+                  color: '#dbd7d7',
+                  backgroundColor: 'transparent',
+                  outline: '#e2580a  solid 1px',
+                  borderRadius: 10,
+                  paddingLeft: 10,
+                  border: 'none',
+                }}
+                onFocus={e => e.target.select()}
+                name="number"
+                type="text"
+              />
+              <Button variant="edit" title="Save" type="submit" />
+            </Form>
+          </Formik>
         )}
       </Container>
-      <Button
-        variant="delete"
-        title={isEdit ? 'Save' : 'Edit'}
-        type="button"
-        onClick={handleChangeMode}
-      />
+      {!isEdit && (
+        <Button
+          variant="edit"
+          title="Edit"
+          type="button"
+          onClick={handleEdit}
+        />
+      )}
       <Button
         variant="delete"
         title="Delete"
         type="button"
         onClick={deleteContact}
       />
+      {/*      
+          <Container>
+            {isEdit ? (
+                 <Formik>
+        <Form>
+          
+            <Field
+                  onChange={handleChange}
+                  onFocus={e => e.target.select()}
+                  defaultValue={nameValue}
+                  name="name"
+                  type="text"
+                />
+                <Field
+                  onChange={handleChange}
+                  onFocus={e => e.target.select()}
+                  defaultValue={numberValue}
+                  name="number"
+                  type="text"
+                />
+            ) : (
+              <>
+                <Name>{nameValue}: </Name>
+                <Number> {numberValue}</Number>
+            )}
+          </Container>
+          <Button
+            variant="edit"
+            title={isEdit ? 'Save' : 'Edit'}
+            type="button"
+            onClick={handleChangeMode}
+          />
+        </Form>
+      </Formik>
+      <Button
+        variant="delete"
+        title="Delete"
+        type="button"
+        onClick={deleteContact}
+      /> */}
     </Item>
   );
 };

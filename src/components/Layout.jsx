@@ -17,7 +17,7 @@ export const Layout = () => {
           <Outlet />
         </Container>
       </Suspense>
-      <Toaster position="top-right" reverseOrder={false} />
+      <Toaster position="bottom-right" reverseOrder={false} />
     </>
   );
 };

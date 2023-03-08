@@ -6,5 +6,6 @@ const List = styled.ul`
   margin-top: 15px;
   padding: 15px 270px 15px 15px;
   background-color: #585a63;
+  border-radius: 5px;
 `;
 export { List };

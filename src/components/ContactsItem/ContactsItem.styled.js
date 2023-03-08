@@ -8,6 +8,7 @@ const Container = styled.div`
   gap: 5px;
 `;
 const Item = styled.li`
+  position: relative;
   min-width: 300px;
   display: flex;
   justify-content: flex-start;

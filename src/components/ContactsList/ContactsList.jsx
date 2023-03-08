@@ -3,12 +3,13 @@ import { List } from './ContactsList.styled';
 import { selectFilteredContacts } from 'redux/contacts/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteContact } from 'redux/contacts/operations';
+import Notification from 'components/Notification';
 const ContactsList = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(selectFilteredContacts);
-  return (
+  const filteredContacts = useSelector(selectFilteredContacts);
+  return !!filteredContacts.length ? (
     <List>
-      {contacts.map(({ name, number, id }) => (
+      {filteredContacts.map(({ name, number, id }) => (
         <ContactsItem
           key={id}
           id={id}
@@ -20,6 +21,8 @@ const ContactsList = () => {
         />
       ))}
     </List>
+  ) : (
+    <Notification message="No contacts with the entered name here!" />
   );
 };
 
