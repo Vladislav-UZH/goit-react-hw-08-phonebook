@@ -26,6 +26,9 @@ const defaultStyles = `
     background-color:#e2580a ; 
     color: inherit;
   }
+  &:disabled{
+    background-color: #4e1a1a ; 
+  }
 `;
 const StyledButton = styled.button`
   ${({ variant }) => {

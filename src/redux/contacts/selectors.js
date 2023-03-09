@@ -10,7 +10,6 @@ const selectFilteredContacts = createSelector(
     const result = contacts.filter(({ name }) =>
       name.toLowerCase().includes(normalizedFilter)
     );
-    console.log('filtered', result);
     return result;
   }
 );

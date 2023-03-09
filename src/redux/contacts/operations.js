@@ -29,7 +29,6 @@ export const editContact = createAsyncThunk(
     try {
       const body = { name, number };
       const resp = await axios.patch(`/contacts/${id}`, body);
-      console.log(resp);
       return resp.data;
     } catch (e) {
       return thunkAPI.rejectWithValue(e.message);

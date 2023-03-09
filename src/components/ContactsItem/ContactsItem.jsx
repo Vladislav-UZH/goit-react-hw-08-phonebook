@@ -1,11 +1,12 @@
 import { Item, Name, Number, Container } from './ContactsItem.styled';
 import PropTypes from 'prop-types';
 import { Button } from 'components/Button/Button';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { editContact } from 'redux/contacts/operations';
 import toast from 'react-hot-toast';
 import { Formik, Form, Field } from 'formik';
+import { selectContacts } from 'redux/contacts/selectors';
 
 const ContactsItem = ({
   id,
@@ -14,13 +15,18 @@ const ContactsItem = ({
   deleteContact,
 }) => {
   const [isEdit, setIsEdit] = useState(false);
+  const [isNeedDisable, setIsNeedDisable] = useState(false);
+  const [timeoutId, setTimeoutId] = useState(null);
   const dispatch = useDispatch();
+  const contacts = useSelector(selectContacts);
   const initialValues = {
     name: nameValue,
     number: numberValue,
   };
   //
-
+  useEffect(() => {
+    return () => clearTimeout(timeoutId);
+  }, [timeoutId]);
   //
   const toggleIsEdit = () => {
     setIsEdit(prev => !prev);
@@ -31,17 +37,26 @@ const ContactsItem = ({
   };
   //
   const handleSubmit = ({ name, number }) => {
-    const normalizedName = name.trim();
-    const normalizedNnumber = number.trim();
-    if (!normalizedName || !normalizedNnumber) {
+    const trimmedName = name.trim();
+    const trimmedNumber = number.trim();
+    if (!trimmedName || !trimmedNumber) {
       toast.error('You forgot to enter your contacts data!');
       return;
     }
-    if (normalizedName === nameValue && normalizedNnumber === numberValue) {
+    if (trimmedName === nameValue && trimmedNumber === numberValue) {
       toast.error('Nothing to change.');
       return toggleIsEdit();
     }
-    dispatch(editContact({ id, normalizedName, normalizedNnumber }));
+    if (contacts.some(contact => contact.name.trim() === trimmedName)) {
+      setIsNeedDisable(true);
+      setTimeoutId(setTimeout(() => setIsNeedDisable(false), 3000));
+      if (contacts.some(contact => contact.number.trim() === trimmedNumber)) {
+        return toast.error(`${number} is already in your contacts!`);
+      }
+      return toast.error(`${name} is already in your contacts!`);
+    }
+
+    dispatch(editContact({ id, name: trimmedName, number: trimmedNumber }));
     return toggleIsEdit();
   };
 
@@ -87,7 +102,12 @@ const ContactsItem = ({
                 name="number"
                 type="text"
               />
-              <Button variant="edit" title="Save" type="submit" />
+              <Button
+                disabled={isNeedDisable}
+                variant="edit"
+                title="Save"
+                type="submit"
+              />
             </Form>
           </Formik>
         )}
